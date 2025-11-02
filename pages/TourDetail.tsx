@@ -84,12 +84,14 @@ const TourDetailView: React.FC<TourDetailViewProps> = ({ tour, onBook, onBack, s
   const [activeImage, setActiveImage] = useState(tour.images[0] || tour.image);
   const [activeTab, setActiveTab] = useState('description');
   
+  import { API_URL } from '../config';
+
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/tours/${tour._id}/reviews`);
+        const response = await fetch(`${API_URL}/api/tours/${tour._id}/reviews`);
         const data = await response.json();
         setReviews(data);
       } catch (error) {
@@ -178,7 +180,7 @@ const TourDetailView: React.FC<TourDetailViewProps> = ({ tour, onBook, onBack, s
     e.preventDefault();
     if (newReview.author && newReview.rating > 0 && newReview.comment) {
       try {
-        const response = await fetch(`http://localhost:5000/api/tours/${tour._id}/reviews`, {
+        const response = await fetch(`${API_URL}/api/tours/${tour._id}/reviews`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ ...newReview, tourId: tour.id })

@@ -1,6 +1,8 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 
+import { API_URL } from '../config';
+
 interface LoginModalProps {
     onClose: () => void;
     onLoginSuccess: (token: string) => void;
@@ -33,7 +35,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose, onLoginSuccess }) => {
         setIsLoading(true);
 
         try {
-            const response = await fetch('http://localhost:5000/api/auth/login', {
+            const response = await fetch(`${API_URL}/api/auth/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username, password }),

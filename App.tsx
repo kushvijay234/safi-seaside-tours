@@ -20,6 +20,8 @@ const App: React.FC = () => {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   
   // Check for path and token to determine initial admin view
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
   const [isAdminView, setIsAdminView] = useState(() => {
     return window.location.pathname === '/admin' && !!getAuthToken();
   });
@@ -35,18 +37,18 @@ const App: React.FC = () => {
   const fetchData = async () => {
     try {
       setIsLoading(true);
-      const toursRes = await fetch('http://localhost:5000/api/tours');
+      const toursRes = await fetch(`${API_URL}/api/tours`);
       const toursData = await toursRes.json();
       setAllTours(toursData);
 
       if (isAdminView) {
-        const tourBookingsRes = await fetch('http://localhost:5000/api/bookings/tours', {
+        const tourBookingsRes = await fetch(`${API_URL}/api/bookings/tours`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         const tourBookingsData = await tourBookingsRes.json();
         setTourBookings(tourBookingsData);
   
-        const airportBookingsRes = await fetch('http://localhost:5000/api/bookings/airport', {
+        const airportBookingsRes = await fetch(`${API_URL}/api/bookings/airport`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         const airportBookingsData = await airportBookingsRes.json();
@@ -104,10 +106,10 @@ const App: React.FC = () => {
   
   const refreshBookings = async () => {
      if (token) {
-        const tourBookingsRes = await fetch('http://localhost:5000/api/bookings/tours', { headers: { 'Authorization': `Bearer ${token}` }});
+        const tourBookingsRes = await fetch(`${API_URL}/api/bookings/tours`, { headers: { 'Authorization': `Bearer ${token}` }});
         setTourBookings(await tourBookingsRes.json());
   
-        const airportBookingsRes = await fetch('http://localhost:5000/api/bookings/airport', { headers: { 'Authorization': `Bearer ${token}` }});
+        const airportBookingsRes = await fetch(`${API_URL}/api/bookings/airport`, { headers: { 'Authorization': `Bearer ${token}` }});
         setAirportBookings(await airportBookingsRes.json());
      }
   };

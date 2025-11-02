@@ -4,6 +4,8 @@ import { Tour } from '../../types';
 import TourForm from './TourForm';
 import { getAuthToken } from '../../utils/auth';
 
+import { API_URL } from '../../config';
+
 interface TourManagerProps {
     tours: Tour[];
     setTours: React.Dispatch<React.SetStateAction<Tour[]>>;
@@ -29,7 +31,7 @@ const TourManager: React.FC<TourManagerProps> = ({ tours, setTours }) => {
         setIsLoading(true);
         const token = getAuthToken();
         const method = tourData._id ? 'PUT' : 'POST';
-        const url = tourData._id ? `http://localhost:5000/api/tours/${tourData._id}` : 'http://localhost:5000/api/tours';
+        const url = tourData._id ? `${API_URL}/api/tours/${tourData._id}` : `${API_URL}/api/tours`;
 
         try {
             const response = await fetch(url, {
@@ -65,7 +67,7 @@ const TourManager: React.FC<TourManagerProps> = ({ tours, setTours }) => {
             setIsLoading(true);
             const token = getAuthToken();
             try {
-                const response = await fetch(`http://localhost:5000/api/tours/${tourToDelete._id}`, {
+                const response = await fetch(`${API_URL}/api/tours/${tourToDelete._id}`, {
                     method: 'DELETE',
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
