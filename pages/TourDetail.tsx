@@ -81,10 +81,10 @@ const TourDetailView: React.FC<TourDetailViewProps> = ({ tour, onBook, onBack, s
   const [newReview, setNewReview] = useState({ author: '', rating: 0, comment: '' });
   const [reviewSubmitted, setReviewSubmitted] = useState(false);
 
-  const [activeImage, setActiveImage] = useState(tour.images[0] || tour.image);
+  const [activeImage, setActiveImage] = useState(tour.images?.[0] || tour.image);
   const [activeTab, setActiveTab] = useState('description');
   
-  import { API_URL } from '../config';
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
@@ -100,12 +100,6 @@ const TourDetailView: React.FC<TourDetailViewProps> = ({ tour, onBook, onBack, s
     };
     if (tour._id) {
         fetchReviews();
-    }
-    // Set initial active image safely
-    if (tour.images && tour.images.length > 0) {
-        setActiveImage(tour.images[0]);
-    } else {
-        setActiveImage(tour.image);
     }
   }, [tour._id, tour.images, tour.image]);
 
@@ -240,7 +234,7 @@ const TourDetailView: React.FC<TourDetailViewProps> = ({ tour, onBook, onBack, s
             <img src={activeImage} alt={`Main view of ${tour.name}`} className="w-full h-full object-cover" />
           </div>
           <div className="grid grid-cols-4 gap-2 sm:gap-4 mt-4">
-            {tour.images.map((img, index) => (
+            {tour.images?.map((img, index) => (
               <button key={index} onClick={() => setActiveImage(img)} className={`rounded overflow-hidden focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ocean-blue ${activeImage === img ? 'ring-2 ring-ocean-blue' : ''}`} aria-label={`View image ${index + 1} of ${tour.name}`}>
                 <img src={img} alt={`${tour.name} thumbnail ${index + 1}`} className="w-full h-16 sm:h-20 object-cover" />
               </button>
