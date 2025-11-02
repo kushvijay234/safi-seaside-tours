@@ -1,0 +1,31 @@
+{
+  "name": "safi-seaside-tours",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@google/genai": "latest",
+    "react-dom": "^19.2.0",
+    "react": "^19.2.0",
+    "express": "^5.1.0",
+    "path": "^0.12.7",
+    "fs": "^0.0.1-security",
+    "url": "^0.11.4",
+    "mongoose": "^8.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "bcryptjs": "^3.0.2",
+    "dotenv": "^17.2.3",
+    "cors": "^2.8.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "typescript": "~5.8.2",
+    "vite": "^6.2.0"
+  }
+}
