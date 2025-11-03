@@ -13,7 +13,18 @@ connectDB();
 
 const app = express();
 
-app.use(cors());
+const allowedOrigins = [
+  'http://localhost:5173', // Your local frontend dev server
+  'https://safi-seaside-tours-gamma.vercel.app' // Your deployed frontend
+];
+
+const corsOptions = {
+  origin: (origin, callback) => {
+    callback(null, true); // For now, allow all origins to fix connection issues.
+  }
+};
+
+app.use(cors(corsOptions));
 // Increase payload size limit for base64 images
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
