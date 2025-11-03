@@ -67,10 +67,11 @@ interface TourDetailViewProps {
   onBack: () => void;
   setCurrentPage: (page: Page) => void;
   isBooking: boolean;
+  apiUrl: string;
 }
 
 // This is the detailed view for a single tour
-const TourDetailView: React.FC<TourDetailViewProps> = ({ tour, onBook, onBack, setCurrentPage, isBooking }) => {
+const TourDetailView: React.FC<TourDetailViewProps> = ({ tour, onBook, onBack, setCurrentPage, isBooking, apiUrl }) => {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [date, setDate] = useState('');
   const [passengers, setPassengers] = useState(1);
@@ -84,14 +85,12 @@ const TourDetailView: React.FC<TourDetailViewProps> = ({ tour, onBook, onBack, s
   const [activeImage, setActiveImage] = useState(tour.images?.[0] || tour.image);
   const [activeTab, setActiveTab] = useState('description');
   
-  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const response = await fetch(`${API_URL}/api/tours/${tour._id}/reviews`);
+        const response = await fetch(`${apiUrl}/api/tours/${tour._id}/reviews`);
         const data = await response.json();
         setReviews(data);
       } catch (error) {
@@ -101,7 +100,7 @@ const TourDetailView: React.FC<TourDetailViewProps> = ({ tour, onBook, onBack, s
     if (tour._id) {
         fetchReviews();
     }
-  }, [tour._id, tour.images, tour.image]);
+  }, [tour._id, tour.images, tour.image, apiUrl]);
 
 
   const today = new Date();
@@ -174,7 +173,7 @@ const TourDetailView: React.FC<TourDetailViewProps> = ({ tour, onBook, onBack, s
     e.preventDefault();
     if (newReview.author && newReview.rating > 0 && newReview.comment) {
       try {
-        const response = await fetch(`${API_URL}/api/tours/${tour._id}/reviews`, {
+        const response = await fetch(`${apiUrl}/api/tours/${tour._id}/reviews`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ ...newReview, tourId: tour.id })

@@ -148,10 +148,11 @@ interface ToursProps {
   setCurrentPage: (page: Page) => void;
   tours: Tour[];
   onBookingSuccess: () => void;
+  apiUrl: string;
 }
 
-const Tours: React.FC<ToursProps> = ({ setCurrentPage, tours, onBookingSuccess }) => {
-  const [selectedTour, setSelectedTour] = useState<Tour | null>(null);
+const Tours: React.FC<ToursProps> = ({ setCurrentPage, tours, onBookingSuccess, apiUrl }) => {
+  const [selectedTour, setSelectedTour] = useState<Tour | null>(null); // TODO: This should be initialized in TourDetailView
   const [activeFilter, setActiveFilter] = useState('All');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isBooking, setIsBooking] = useState(false);
@@ -174,7 +175,7 @@ const Tours: React.FC<ToursProps> = ({ setCurrentPage, tours, onBookingSuccess }
         ...details,
       };
 
-      const response = await fetch('http://localhost:5000/api/bookings/tour', {
+      const response = await fetch(`${apiUrl}/api/bookings/tour`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(bookingData),
@@ -244,6 +245,7 @@ const Tours: React.FC<ToursProps> = ({ setCurrentPage, tours, onBookingSuccess }
             onBack={() => setSelectedTour(null)}
             setCurrentPage={setCurrentPage}
             isBooking={isBooking}
+            apiUrl={apiUrl}
           />
         ) : (
           <>

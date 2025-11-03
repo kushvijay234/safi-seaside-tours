@@ -4,9 +4,10 @@ import { AirportTransferBooking } from '../types';
 
 interface AirportTransfersProps {
   onBookingSuccess: () => void;
+  apiUrl: string;
 }
 
-const AirportTransfers: React.FC<AirportTransfersProps> = ({ onBookingSuccess }) => {
+const AirportTransfers: React.FC<AirportTransfersProps> = ({ onBookingSuccess, apiUrl }) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -30,7 +31,7 @@ const AirportTransfers: React.FC<AirportTransfersProps> = ({ onBookingSuccess })
     setSubmissionStatus('idle');
 
     try {
-      const response = await fetch('http://localhost:5000/api/bookings/airport', {
+      const response = await fetch(`${apiUrl}/api/bookings/airport`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(formData)

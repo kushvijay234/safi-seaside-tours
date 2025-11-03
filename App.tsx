@@ -125,9 +125,9 @@ const App: React.FC = () => {
       case 'About':
         return <About />;
       case 'Tours':
-        return <Tours setCurrentPage={handleSetCurrentPage} tours={allTours} onBookingSuccess={refreshBookings} />;
+        return <Tours setCurrentPage={handleSetCurrentPage} tours={allTours} onBookingSuccess={refreshBookings} apiUrl={API_URL} />;
       case 'Airport Transfers':
-        return <AirportTransfers onBookingSuccess={refreshBookings} />;
+        return <AirportTransfers onBookingSuccess={refreshBookings} apiUrl={API_URL} />;
       case 'Gallery':
         return <Gallery />;
       case 'FAQ':
